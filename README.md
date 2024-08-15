@@ -37,7 +37,8 @@ InforceTestTask/
 └── requirements.txt            # Python dependencies
 ```
 ## Prerequisites
-1. **Docker**: Install Docker on your machine.
+1. Install **Docker** on your machine.
+
 
 ## Setup Instructions
 1. **Clone the Repository**: 
@@ -64,8 +65,9 @@ InforceTestTask/
     docker-compose down
     ```
    
+
 ## Usage
-1. **You can run individual scripts**:
+1. **You can run individual scripts of ETL process**:
     - Generate data:
         ```bash
         docker-compose run etl python scripts/generate.py
