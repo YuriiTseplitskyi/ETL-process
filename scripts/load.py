@@ -1,30 +1,45 @@
-import pandas as pd
-import psycopg2
-from config.db_config import DB_PARAMS
 import os
+import psycopg2
+import pandas as pd
+from config.db_config import DB_PARAMS
 
 
-transformed_csv_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'transformed_data.csv')
-df = pd.read_csv(transformed_csv_file)
+TRANSFORMED_CSV_FILE = os.path.join(os.path.dirname(__file__), '..', 'data', 'transformed_data.csv')
 
-conn = psycopg2.connect(
-    dbname=DB_PARAMS['dbname'],
-    user=DB_PARAMS['user'],
-    password=DB_PARAMS['password'],
-    host=DB_PARAMS['host'],
-    port=DB_PARAMS['port']
-)
-cur = conn.cursor()
 
-for index, row in df.iterrows():
-    cur.execute('''
-        INSERT INTO "Users" (name, email, signup_date, domain)
-        VALUES (%s, %s, %s, %s)
-        ON CONFLICT (user_id) DO NOTHING;
-    ''', (row['name'], row['email'], row['signup_date'], row['domain']))
+def connect_to_db(db_params):
+    conn = psycopg2.connect(
+        dbname=db_params['dbname'],
+        user=db_params['user'],
+        password=db_params['password'],
+        host=db_params['host'],
+        port=db_params['port']
+    )
+    return conn
 
-conn.commit()
-cur.close()
-conn.close()
 
-print("Transformed data inserted into the PostgreSQL table.")
+def insert_data_into_db(conn, df):
+
+    with conn.cursor() as cur:
+        for _, row in df.iterrows():
+            cur.execute('''
+                INSERT INTO "Users" (name, email, signup_date, domain)
+                VALUES (%s, %s, %s, %s)
+                ON CONFLICT (email) DO NOTHING;
+            ''', (row['name'], row['email'], row['signup_date'], row['domain']))
+        conn.commit()
+
+
+def main():
+
+    df = pd.read_csv(TRANSFORMED_CSV_FILE)
+    conn = connect_to_db(DB_PARAMS)
+    try:
+        insert_data_into_db(conn, df)
+        print("Transformed data inserted into the PostgreSQL table.")
+    finally:
+        conn.close()
+
+
+if __name__ == "__main__":
+    main()
