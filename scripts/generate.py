@@ -6,7 +6,6 @@ fake = faker.Faker()
 
 num_records = 1000
 
-#'C:\\MAIN\\it\\projects\\py\\InforceTestTask\\data\\data.csv'
 csv_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'data.csv')
 
 with open(csv_file, mode='w', newline='') as file:

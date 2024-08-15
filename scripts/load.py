@@ -4,7 +4,6 @@ from config.db_config import DB_PARAMS
 import os
 
 
-#transformed_csv_file = 'C:\\MAIN\\it\\projects\\py\\InforceTestTask\\data\\transformed_data.csv'
 transformed_csv_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'transformed_data.csv')
 df = pd.read_csv(transformed_csv_file)
 
