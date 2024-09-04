@@ -1,13 +1,10 @@
-import os
 import psycopg2
 import pandas as pd
 from config.db_config import DB_PARAMS
+from config.constants import TRANSFORMED_CSV_FILE
 
 
-TRANSFORMED_CSV_FILE = os.path.join(os.path.dirname(__file__), '..', 'data', 'transformed_data.csv')
-
-
-def connect_to_db(db_params):
+def connect_to_db(db_params: dict) -> psycopg2.connect:
     conn = psycopg2.connect(
         dbname=db_params['dbname'],
         user=db_params['user'],
@@ -18,7 +15,7 @@ def connect_to_db(db_params):
     return conn
 
 
-def insert_data_into_db(conn, df):
+def insert_data_into_db(conn: psycopg2.connect, df: pd.DataFrame):
 
     with conn.cursor() as cur:
         for _, row in df.iterrows():

@@ -1,16 +1,13 @@
 import csv
 import os
 from faker import Faker
+from config.constants import NUM_RECORDS, CSV_HEADERS, CSV_FILE_PATH
 
-NUM_RECORDS = 1000
-CSV_HEADERS = ['user_id', 'name', 'email', 'signup_date']
-OUTPUT_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
-CSV_FILE_PATH = os.path.join(OUTPUT_DIR, 'data.csv')
 
 fake = Faker()
 
 
-def generate_fake_record(record_id):
+def generate_fake_record(record_id: int) -> dict:
 
     return {
         'user_id': record_id,
@@ -20,7 +17,7 @@ def generate_fake_record(record_id):
     }
 
 
-def write_csv(file_path, headers, records):
+def write_csv(file_path: str, headers: list, records: list):
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
     with open(file_path, mode='w', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=headers)
