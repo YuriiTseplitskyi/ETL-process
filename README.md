@@ -1,4 +1,4 @@
-# InforceTestTask
+# ETL process
 
 ## Overview
 
@@ -11,7 +11,7 @@ This project demonstrates a simple ETL (Extract, Transform, Load) process using 
 ## Project Structure
 
 ```plaintext
-InforceTestTask/
+ETL-process/
 ├── config/
 │   └── db_config.py            # Database configuration
 ├── data/
@@ -44,7 +44,7 @@ InforceTestTask/
 1. **Clone the Repository**: 
     ```bash
     git clone <repository-url>
-    cd InforceTestTask
+    cd ETL-process
    ```
 2. **Configure Environment Variables**:
     - Create a new file named `.env` in the root directory.
